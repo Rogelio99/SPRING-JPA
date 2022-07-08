@@ -80,5 +80,21 @@ public class PersonasControllerImpl implements IPersonasController {
 
 		return new ResponseEntity<ResponseModel>(HttpStatus.NOT_IMPLEMENTED);
 	}
+
+	@Override
+	public ResponseEntity<ResponseModel> getPersonasJQPL() {
+		String accept = request.getHeader("Accept");
+		if (accept != null && accept.contains("application/json")) {
+			try {
+				ResponseModel personasJPQL= this.cliente.getPersonasJPQL();
+				return new ResponseEntity<ResponseModel>(personasJPQL, HttpStatus.OK);
+			} catch (Exception e) {
+				log.error(e);
+				return new ResponseEntity<ResponseModel>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+
+		return new ResponseEntity<ResponseModel>(HttpStatus.NOT_IMPLEMENTED);
+	}
 	
 }

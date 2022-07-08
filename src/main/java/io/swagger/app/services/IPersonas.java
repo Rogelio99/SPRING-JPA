@@ -14,4 +14,6 @@ public interface IPersonas {
 
 	ResponseModel getPersonasMascotas();
 
+	ResponseModel getPersonasJPQL();
+
 }

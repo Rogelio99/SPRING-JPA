@@ -35,14 +35,6 @@ public interface IPersonasController {
 			"application/json" }, method = RequestMethod.POST)
 	ResponseEntity<Persona> addPersona(@Valid @RequestBody Persona body);
 
-	@Operation(summary = "Agrega información de una persona con jpql", description = "", tags = { "personas" })
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Persona.class))),
-			@ApiResponse(responseCode = "500", description = "Persona no válida") })
-	@RequestMapping(value = "", produces = { "application/json" }, consumes = {
-			"application/json" }, method = RequestMethod.POST)
-	ResponseEntity<Persona> addPersonaJPQL(@Valid @RequestBody Persona body);
-
 	@Operation(summary = "Agrega información de una mascota y relación con persona", description = "", tags = {
 			"personas" })
 	@ApiResponses(value = {
@@ -58,5 +50,12 @@ public interface IPersonasController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Successful operation") })
 	@RequestMapping(value = "", produces = { "application/json" }, method = RequestMethod.GET)
 	ResponseEntity<ResponseModel> getPersonasMascotas();
+
+	@Operation(summary = "Consulta información de persona", description = "Uso de multiples metodos de busqueda", tags = {
+		"personas" })
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Successful operation") })
+	@RequestMapping(value = "/jpql", produces = { "application/json" }, method = RequestMethod.GET)
+	ResponseEntity<ResponseModel> getPersonasJQPL();
+
 
 }

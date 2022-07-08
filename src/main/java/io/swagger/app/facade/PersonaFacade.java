@@ -2,6 +2,7 @@ package io.swagger.app.facade;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +84,44 @@ public class PersonaFacade {
 		return personas;
 	}
 
+
+	public HashMap<String, List<Persona>> getPersonasJPQL(){
+		HashMap<String, List<Persona>> personas = new HashMap<String, List<Persona>>();
+		personas.put("DISTINCT", this.personaRepo.findDistinctByNombre("Juana"));
+		personas.put("AND", this.personaRepo.findByNombreAndActivo("Juana", true));
+		personas.put("OR", this.personaRepo.findByNombreOrActivo("Juana", true));
+		personas.put("equals", this.personaRepo.findByNombreEquals("Rogelio"));
+
+		try {
+			String fromDateString = "2017-01-01 00:00:01.000";
+			String toDateString = "2018-12-31 00:00:01.000";
+			Date fromDate = formatter.parse(fromDateString);
+			Date toDate = formatter.parse(toDateString);
+			personas.put("findByFechaRegistroBetween", this.personaRepo.findByFechaRegistroBetween(fromDate, toDate));	
+		} catch (Exception e) {
+			log.error(e);
+		}
+
+		personas.put("lessThan", this.personaRepo.findByEdadLessThanJPQL(18));
+		personas.put("greaterThan", this.personaRepo.findByEdadGreaterThanJPQL(18));
+		personas.put("lessThanEqual", this.personaRepo.findByEdadLessThanOrEqualToJPQL(18));
+		personas.put("greaterThanEqual", this.personaRepo.findByEdadGreaterThanOrEqualToJPQL(18));
+		personas.put("Is null", this.personaRepo.findBySalarioIsNullJPQL());
+		personas.put("Is not null", this.personaRepo.findBySalarioIsNotNullJPQL());
+		personas.put("Like", this.personaRepo.findByNombreLikeJPQL("juana"));
+		personas.put("Not Like", this.personaRepo.findByNombreNotLikeJPQL("juana"));
+		personas.put("StartingWith", this.personaRepo.findByNombreStartsWithJPQL("%juana"));
+		personas.put("EndingWith", this.personaRepo.findByNombreEndsWithJPQL("juana%"));
+		personas.put("Containing", this.personaRepo.findByNombreContainsJPQL("%juana%"));
+		personas.put("In", this.personaRepo.findByNombreInJPQL(Arrays.asList("Juana", "Rogelio")));
+		personas.put("Not In", this.personaRepo.findByNombreNotInJPQL(Arrays.asList("Juana", "Manuel")));
+		personas.put("OrderBy asc", this.personaRepo.findByNombreOrderByCustomAscJPQL("nombre"));
+		personas.put("OrderBy desc", this.personaRepo.findByNombreOrderByCustomDescJPQL("nombre"));
+		personas.put("IgnoreCase", this.personaRepo.findByNombreIgnoreCaseJPQL("juana"));
+
+		
+		return personas;
+	}
 	public Optional<Persona> findById(Long idPersona) {
 		return this.personaRepo.findById(idPersona);
 	}

@@ -53,4 +53,12 @@ public class PersonasServices implements IPersonas {
 		return response;
 	}
 
+	@Override
+	public ResponseModel getPersonasJPQL () {
+		ResponseModel response = new ResponseModel();
+		HashMap<String , List<Persona>> personas = this.personafacade.getPersonasJPQL();
+		response.setPersonas(personas);
+		return response;
+	}
+
 }
